@@ -37,6 +37,14 @@ class TreeMap:
             self.indexedNodes[self.root]['pos2D'] = (0, 0)
             self.origin_graph = self.construct_nx_graph()
 
+    def top_down_search(self, nid, do_something):
+        do_something(nid)
+        if self.indexedNodes[nid]['virtualNode']:
+            for item in self.indexedNodes[nid]['childIdx']:
+                self.top_down_search(item, do_something)
+        else:
+            pass
+
     def construct_nx_graph(self, draw=False):
         g = nx.Graph()
         for node in self.graph['nodes']:
@@ -193,6 +201,7 @@ class TreeMap:
         cy = rect['y'] + rect['height'] / 2
         self.indexedNodes[nid]['pos2D'] = (cx, cy)
         # TODO clean
+        # TODO this condition statement have logical issues
         if not self.indexedNodes[self.indexedNodes[nid]['childIdx'][0]]['virtualNode']:
             size = min(rect['width'], rect['height']) / 2
             r_list = [math.sqrt(pos[0] * pos[0] + pos[1] * pos[1]) for i, pos in
@@ -230,6 +239,7 @@ class TreeMap:
         nx.draw_networkx_edges(self.origin_graph, position_2d, edge_color="gray", alpha=0.5)
         plt.axis('off')
         plt.show()
+        return position_2d
 
     def save_layout(self, path):
         json_obj = {
@@ -240,5 +250,5 @@ class TreeMap:
         for node in self.graph['nodes']:
             if node['idx'] in self.indexedNodes:
                 json_obj['nodes'].append(node)
-        with open("path", 'w') as fp:
+        with open(path, 'w') as fp:
             json.dump(json_obj, fp)
