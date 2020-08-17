@@ -202,10 +202,19 @@ class TreeMap:
         self.indexedNodes[nid]['pos2D'] = (cx, cy)
         # TODO clean
         # TODO this condition statement have logical issues
-        if not self.indexedNodes[self.indexedNodes[nid]['childIdx'][0]]['virtualNode']:
+        if not self.indexedNodes[nid]['virtualNode']:
+            return
+
+        isLastSuperNode = True
+        for i in self.indexedNodes[nid]['childIdx']:
+            if self.indexedNodes[i]['virtualNode']:
+                isLastSuperNode = False
+                break
+
+        if isLastSuperNode:
             size = min(rect['width'], rect['height']) / 2
             r_list = [math.sqrt(pos[0] * pos[0] + pos[1] * pos[1]) for i, pos in
-                      self.quotient_graphs[nid].layout.items()]
+                        self.quotient_graphs[nid].layout.items()]
             pos_list = [pos for i, pos in self.quotient_graphs[nid].layout.items()]
             mx, my = 0, 0
             for p in pos_list:
@@ -233,8 +242,11 @@ class TreeMap:
     def draw(self):
         position_2d = {}
         for i, node in self.indexedNodes.items():
-            if not node['virtualNode']:
-                position_2d[node['idx']] = node['pos2D']
+            try:
+                if not node['virtualNode']:
+                    position_2d[node['idx']] = node['pos2D']
+            except KeyError:
+                print(node)
         nx.draw_networkx_nodes(self.origin_graph, position_2d, node_size=50, with_labels=False, node_color="blue", alpha=0.5)
         nx.draw_networkx_edges(self.origin_graph, position_2d, edge_color="gray", alpha=0.5)
         plt.axis('off')
