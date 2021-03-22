@@ -212,7 +212,7 @@ class TreeMap:
                 print('Treating 140')
             size = min(rect['width'], rect['height']) / 2
             r_list = [math.sqrt(pos[0] * pos[0] + pos[1] * pos[1]) for i, pos in
-                      self.quotient_graphs[nid].layout.items()]
+                        self.quotient_graphs[nid].layout.items()]
             pos_list = [pos for i, pos in self.quotient_graphs[nid].layout.items()]
             mx, my = 0, 0
             for p in pos_list:
