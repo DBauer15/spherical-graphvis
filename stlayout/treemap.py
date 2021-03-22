@@ -196,6 +196,8 @@ class TreeMap:
         return l_1, w1, l_2, w2
 
     def treemap_layout(self, nid):
+        
+                
         rect = self.indexedNodes[nid]['rect']
         cx = rect['x'] + rect['width'] / 2
         cy = rect['y'] + rect['height'] / 2
@@ -203,6 +205,11 @@ class TreeMap:
         # TODO clean
         # TODO this condition statement have logical issues
         if not self.indexedNodes[self.indexedNodes[nid]['childIdx'][0]]['virtualNode']:
+        #if self.indexedNodes[nid]['virtualNode'] and self.indexedNodes[self.indexedNodes[nid]['childIdx'][0]]['virtualNode'] == False:
+            if nid == 140:
+                print(self.indexedNodes[nid])
+                print(self.indexedNodes[self.indexedNodes[nid]['childIdx'][0]])
+                print('Treating 140')
             size = min(rect['width'], rect['height']) / 2
             r_list = [math.sqrt(pos[0] * pos[0] + pos[1] * pos[1]) for i, pos in
                       self.quotient_graphs[nid].layout.items()]
@@ -234,7 +241,7 @@ class TreeMap:
         position_2d = {}
         for i, node in self.indexedNodes.items():
             if not node['virtualNode']:
-                position_2d[node['idx']] = node['pos2D']
+                    position_2d[node['idx']] = node['pos2D']
         nx.draw_networkx_nodes(self.origin_graph, position_2d, node_size=50, with_labels=False, node_color="blue", alpha=0.5)
         nx.draw_networkx_edges(self.origin_graph, position_2d, edge_color="gray", alpha=0.5)
         plt.axis('off')
