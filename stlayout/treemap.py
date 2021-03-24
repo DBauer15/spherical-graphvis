@@ -242,7 +242,7 @@ class TreeMap:
         for i, node in self.indexedNodes.items():
             if not node['virtualNode']:
                     position_2d[node['idx']] = node['pos2D']
-        nx.draw_networkx_nodes(self.origin_graph, position_2d, node_size=50, with_labels=False, node_color="blue", alpha=0.5)
+        nx.draw_networkx_nodes(self.origin_graph, position_2d, node_size=50, node_color="blue", alpha=0.5)
         nx.draw_networkx_edges(self.origin_graph, position_2d, edge_color="gray", alpha=0.5)
         plt.axis('off')
         plt.show()

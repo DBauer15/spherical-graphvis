@@ -1,4 +1,4 @@
 {
     "python.venvPath": "${workspaceFolder}/.venv/bin/python",
-    "python.pythonPath": "${workspaceFolder}/.venv/bin/python",
+    "python.pythonPath": ".venv/bin/python3.8",
 }
